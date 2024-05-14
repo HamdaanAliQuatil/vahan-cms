@@ -21,3 +21,40 @@ describe('execute query', () => {
         console.log(result.rows);
     });
 });
+
+describe('create entity table', () => {
+    it('should create the entity table', async () => {
+        await postgresAdapter.createEntityTable();
+    });
+});
+
+describe('insert entity', () => {
+    it('should insert an entity', async () => {
+        const bday = new Date('1999-01-01');
+        await postgresAdapter.createEntity('Hamdaan Ali', 'xyz@gmail.com', 1234567890, bday);
+    });
+});
+
+describe('search entity', () => {
+    it('get entity by name', async () => {
+        const values = 'email: \'xyz@gmail.com\'';
+        const result = await postgresAdapter.getEntityByCriteria(values);
+    });
+});
+
+describe('update entity', () => {
+    it('update entity by name', async () => {
+        const criteria = { name: 'Hamdaan Ali' };
+        const values = { email: 'abc@gmail.com' };
+
+        const result = await postgresAdapter.updateEntity(criteria, values);
+    });
+});
+
+// describe('delete entity', () => {
+//     it('delete entity by name', async () => {
+//         const criteria = { name: 'Hamdaan Ali' };
+
+//         const result = await postgresAdapter.deleteEntity(criteria);
+//     });
+// });
