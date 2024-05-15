@@ -1,5 +1,5 @@
 import { Pool, QueryResult } from 'pg';
-import { config } from '../config';
+import { config } from '@vahan/v1/config';
 
 class PostgresAdapter {
     private pool: Pool;
