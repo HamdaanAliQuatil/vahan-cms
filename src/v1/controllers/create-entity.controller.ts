@@ -11,9 +11,7 @@ const postgresAdapter = new PostgresAdapter();
 export const createEntityTable = async (req: Request, res: Response): Promise<void> => {
     try {
         await postgresAdapter.createEntityTable();
-        res.status(201).json({ message: 'Entity table created successfully' });
     } catch (error) {
         console.error('Error creating entity table:', error);
-        res.status(500).json({ error: 'Internal server error' });
     }
 };
