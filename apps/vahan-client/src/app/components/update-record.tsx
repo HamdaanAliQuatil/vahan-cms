@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/record-box.css';
+import { generateHash } from '../utils/hash.utils';
 
 const UpdateRecordForm = () => {
   const [searchCriteria, setSearchCriteria] = useState({
@@ -34,12 +35,13 @@ const UpdateRecordForm = () => {
       updatedValues,
     };
 
-    console.log(body);
+    const hash = generateHash(JSON.stringify(body));
     try {
       await fetch('http://localhost:3000/v1/entity/', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'X-Hash': hash,
         },
         body: JSON.stringify({
           searchCriteria,

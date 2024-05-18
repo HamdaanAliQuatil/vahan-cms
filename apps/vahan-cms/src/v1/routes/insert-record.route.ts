@@ -3,7 +3,7 @@ import { insertRecord } from '@vahan/v1/controllers/insert-record.controller';
 
 const router = express.Router();
 
-const validateRequestBody = (req: Request, res: Response, next: Function) => {
+const validateRequestBody = (req: Request, res: Response, next: any) => {
     const { name, email, mobileNumber, dateOfBirth } = req.body;
     
     // Check if required fields are missing
@@ -64,9 +64,20 @@ const validateRequestBody = (req: Request, res: Response, next: Function) => {
  *         description: Internal server error.
  */
 router.post('/entity', validateRequestBody, async (req: Request, res: Response) => {
+    const hash = req.header('X-Hash');
+
+    if (!hash || typeof hash !== 'string') {
+        return res.status(400).send('Missing or invalid hash');
+    }
+
     try {
-        await insertRecord(req, res);
-        res.status(201).send('Entity created successfully');
+        const { isVerified, message } = await insertRecord(req.body, hash);
+
+        if (!isVerified) {
+            return res.status(400).send(message);
+        }
+
+        res.status(201).send(message);
     } catch (error) {
         console.error('Error creating entity:', error);
         res.status(500).send('Internal server error');

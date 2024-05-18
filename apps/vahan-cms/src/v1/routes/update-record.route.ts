@@ -52,10 +52,20 @@ router.put('/entity', async (req: Request, res: Response) => {
         if (Object.keys(req.body).length === 0) {
             return res.status(400).send('Missing required fields in the request body');
         }
-        
 
-        const updatedEntity = await updateRecord(req, res);
-        res.status(200).send('Entity updated successfully');
+        const hash = req.header('X-Hash');
+
+        if (!hash || typeof hash !== 'string') {
+            return res.status(400).send('Missing or invalid hash');
+        }
+        
+        const { isVerified, message } = await updateRecord(req.body, hash);
+
+        if (!isVerified) {
+            return res.status(400).send(message);
+        }
+
+        res.status(200).send(message);
         return;
     } catch (error) {
         console.error('Error updating entity:', error);

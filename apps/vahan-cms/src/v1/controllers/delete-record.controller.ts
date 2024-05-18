@@ -1,14 +1,32 @@
-import { Request, Response } from 'express';
 import PostgresAdapter from '@vahan/v1/adapters/postgres.adapter';
+import { generateHash } from '@vahan/v1/utils/crypto.utils';
 
 const postgresAdapter = new PostgresAdapter();
 
-export const deleteRecord = async (req: Request, res: Response): Promise<void> => {
+interface DeleteResult {
+    isVerified: boolean;
+    message: string;
+}
+
+export const deleteRecord = async (body: any, hash: string): Promise<DeleteResult> => {
     try {
-        const { searchCriteria } = req.body;
-        
-        await postgresAdapter.deleteEntity(searchCriteria);
+        const hashFromData = generateHash(body.searchCriteria);
+
+        // Compare hash with expected value to verify integrity
+        if (hash !== hashFromData) {
+            return { isVerified: false, message: 'Integrity compromised' };
+        }
+
+        // Validate the request body
+        if (Object.keys(body).length === 0) {
+            return { isVerified: false, message: 'Missing required fields in the request body' };
+        } 
+
+        await postgresAdapter.deleteEntity(body.searchCriteria);
+        return { isVerified: true, message: 'Entity deleted successfully & integrity verified' };
     } catch (error) {
         console.error('Error deleting entity:', error);
+        throw new Error('Internal server error');
     }
 };
+

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/record-box.css';
+import { generateHash } from '../utils/hash.utils';
 
 const DeleteRecordForm = () => {
   const [searchCriteria, setSearchCriteria] = useState({
@@ -19,12 +20,15 @@ const DeleteRecordForm = () => {
         delete searchCriteria[key as keyof typeof searchCriteria]
     );
 
+    const hash = generateHash(searchCriteria);
+
     try {
       // Send DELETE request with search criteria
       await fetch('http://localhost:3000/v1/entity/', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'X-Hash': hash,
         },
         body: JSON.stringify({
           searchCriteria,

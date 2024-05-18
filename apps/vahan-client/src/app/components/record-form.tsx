@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/record-box.css';
+import { generateHash } from '../utils/hash.utils';
 
 interface RecordFormProps {
   selectedTab: string;
@@ -13,6 +14,17 @@ const RecordForm: React.FC<RecordFormProps> = ({ selectedTab }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    const requestBody = JSON.stringify({
+      name,
+      email,
+      mobileNumber,
+      dateOfBirth,
+    });
+
+    // Generate hash
+    const hash = generateHash(requestBody);
+
     if (selectedTab === 'Create Record') {
       try {
         // Call API to create table
@@ -25,13 +37,9 @@ const RecordForm: React.FC<RecordFormProps> = ({ selectedTab }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'X-Hash': hash,
           },
-          body: JSON.stringify({
-            name,
-            email,
-            mobileNumber,
-            dateOfBirth,
-          }),
+          body: requestBody,
         });
 
         // if successful, show success message
@@ -45,9 +53,7 @@ const RecordForm: React.FC<RecordFormProps> = ({ selectedTab }) => {
       } catch (error) {
         console.error('Error creating record:', error);
       }
-    } else if (selectedTab === 'Update Record') {
-      // Implement update record logic
-    }
+    } 
   };
 
   return (

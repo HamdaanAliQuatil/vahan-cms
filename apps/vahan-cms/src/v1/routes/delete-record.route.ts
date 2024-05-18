@@ -30,8 +30,19 @@ router.delete('/entity', async (req: Request, res: Response) => {
             return res.status(400).send('Missing required fields in the request body');
         }
 
-        await deleteRecord(req, res);
-        res.status(204).send('Entity deleted successfully');
+        const hash = req.header('X-Hash');
+
+        if (!hash || typeof hash !== 'string') {
+            return res.status(400).send('Missing or invalid hash');
+        }
+
+        const { isVerified, message } = await deleteRecord(req.body, hash);
+
+        if (!isVerified) {
+            return res.status(400).send(message);
+        }
+
+        res.status(204).send(message);
         return;
     } catch (error) {
         console.error('Error deleting entity:', error);
