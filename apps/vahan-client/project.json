@@ -1,0 +1,9 @@
+{
+  "name": "vahan-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/vahan-client/src",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project vahan-client --web",
+  "targets": {}
+}

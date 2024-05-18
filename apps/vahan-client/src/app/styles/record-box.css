@@ -1,0 +1,111 @@
+/* RecordForm.css */
+
+.record-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px 0 20px 0;
+    width: 100%; /* Adjust width as needed */
+    transition: box-shadow 0.3s ease; /* Add slight animation */
+}
+
+.record-form-container:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Adjust shadow on hover */
+}
+
+.form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    flex-direction: column;
+}
+
+.form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease; /* Add slight animation */
+}
+
+.form-group input:focus {
+    border-color: #007bff; /* Change border color on focus */
+}
+
+.form-group-side-by-side {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .form-group-side-by-side input {
+    margin-left: 5px;
+    margin-right: 5px; /* Adjust spacing between inputs */
+    flex: 1; /* Allow inputs to expand and fill the available space */
+  }
+  
+  
+  .side-by-side-inputs {
+    display: flex;
+    flex-direction: column;
+    vertical-align: top;
+    align-self: flex-start;
+    width: 49%; /* Adjust width as needed */
+  }
+  
+  .submit-button {
+    background-color: #212121;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: relative;
+    left: 45%;
+    margin: 0 auto;
+    transition: background-color 0.7s ease;
+  }
+
+/* TabComponent.css */
+
+.tab-component {
+    margin-top: 20px;
+}
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-right: 20px; /* Add margin to create space between tabs and content */
+}
+
+.tabs button {
+    background-color: #fff;
+    border: none;
+    height: 60px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tabs button.active {
+    background-color: #f0f0f0; /* Light grey shade for selected tab */
+}
+
+.tabs button:not(.active) {
+    background-color: #fff; /* White for unselected tabs */
+}
+
+.record-content {
+    width: calc(100% - 240px); /* Adjust width to accommodate tabs and space */
+}
