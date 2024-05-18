@@ -1,0 +1,61 @@
+{
+  "name": "vahan-cms",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/vahan-cms/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/vahan-cms",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/vahan-cms/src/v1/index.ts",
+        "tsConfig": "apps/vahan-cms/tsconfig.app.json",
+        "assets": ["apps/vahan-cms/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "generateLockfile": true,
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "vahan-cms:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "vahan-cms:build:development"
+        },
+        "production": {
+          "buildTarget": "vahan-cms:build:production"
+        }
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/vahan-cms/Dockerfile . -t vahan-cms"
+    }
+  }
+}
