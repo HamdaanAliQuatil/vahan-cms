@@ -19,6 +19,11 @@ export const updateRecord = async (body: any, hash: string): Promise<UpdateResul
             return { isVerified: false, message: 'Integrity compromised' };
         }
 
+        // Check for prototype pollution
+        if ('__proto__' in searchCriteria || '__proto__' in updatedValues) {
+            return { isVerified: false, message: 'Invalid input parameters' };
+        }        
+
         // Validate the request body
         if (Object.keys(body).length === 0) {
             return { isVerified: false, message: 'Missing required fields in the request body' };

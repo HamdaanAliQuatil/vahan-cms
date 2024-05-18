@@ -17,6 +17,11 @@ export const insertRecord = async (body: any, hash: string): Promise<InsertResul
             return { isVerified: false, message: 'Integrity compromised' };
         }
 
+        // Check for prototype pollution
+        if ('__proto__' in body) {
+            return { isVerified: false, message: 'Invalid input parameters' };
+        }
+
         // Convert dateOfBirth to a Date object
         const dateOfBirthObj = new Date(dateOfBirth);
 

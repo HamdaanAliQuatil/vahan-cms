@@ -20,7 +20,12 @@ export const deleteRecord = async (body: any, hash: string): Promise<DeleteResul
         // Validate the request body
         if (Object.keys(body).length === 0) {
             return { isVerified: false, message: 'Missing required fields in the request body' };
-        } 
+        }
+        
+        // Check for prototype pollution
+        if ('__proto__' in body.searchCriteria) {
+            return { isVerified: false, message: 'Invalid input parameters' };
+        }
 
         await postgresAdapter.deleteEntity(body.searchCriteria);
         return { isVerified: true, message: 'Entity deleted successfully & integrity verified' };
