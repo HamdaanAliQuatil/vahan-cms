@@ -18,7 +18,7 @@ export const insertRecord = async (body: any, hash: string): Promise<InsertResul
         }
 
         // Check for prototype pollution
-        if ('__proto__' in body) {
+        if (Object.keys(body).includes('__proto__')){
             return { isVerified: false, message: 'Invalid input parameters' };
         }
 

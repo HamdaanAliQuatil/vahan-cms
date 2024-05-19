@@ -20,7 +20,7 @@ export const updateRecord = async (body: any, hash: string): Promise<UpdateResul
         }
 
         // Check for prototype pollution
-        if ('__proto__' in searchCriteria || '__proto__' in updatedValues) {
+        if (Object.keys(searchCriteria).includes('__proto__') || Object.keys(updatedValues).includes('__proto__')) {
             return { isVerified: false, message: 'Invalid input parameters' };
         }        
 

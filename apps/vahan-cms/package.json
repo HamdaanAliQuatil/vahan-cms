@@ -37,6 +37,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@vahan-cms/source": "file:../..",
     "axios": "^1.6.7",
     "axios-mock-adapter": "^1.22.0",
     "dotenv-safe": "^8.2.0",

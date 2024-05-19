@@ -23,14 +23,14 @@ export const deleteRecord = async (body: any, hash: string): Promise<DeleteResul
         }
         
         // Check for prototype pollution
-        if ('__proto__' in body.searchCriteria) {
+        if (Object.keys(body.searchCriteria).includes('__proto__')){
             return { isVerified: false, message: 'Invalid input parameters' };
         }
 
         await postgresAdapter.deleteEntity(body.searchCriteria);
         return { isVerified: true, message: 'Entity deleted successfully & integrity verified' };
     } catch (error) {
-        console.error('Error deleting entity:', error);
+        console.error('Error deleting entity:', error);  
         throw new Error('Internal server error');
     }
 };

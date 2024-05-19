@@ -5,7 +5,8 @@
   "scripts": {
     "start:cms": "cross-env npm run --prefix ./apps/vahan-cms start:dev",
     "start:client": "npx nx run vahan-client:serve",
-    "nx:install": "npx i -g nx@latest"
+    "prevahan:init": "npm add --global nx@latest",
+    "vahan:init": "npm install && npm install --prefix ./apps/vahan-cms"
   },
   "private": true,
   "dependencies": {
